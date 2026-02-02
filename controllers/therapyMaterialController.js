@@ -1,11 +1,29 @@
 const TherapyMaterial = require("../models/TherapyMaterial");
 
+
 // CREATE material (Admin)
 exports.createMaterial = async (req, res) => {
   try {
-    const material = await TherapyMaterial.create(req.body);
+    // Make sure Multer middleware is used in your route:
+    // router.post("/", upload.single("image"), createMaterial);
+
+    if (!req.file) {
+      return res.status(400).json({ message: "Image file is required" });
+    }
+
+    const { title, description, category, link } = req.body;
+
+    const material = await TherapyMaterial.create({
+      title,
+      description,
+      category,
+      link,
+      image: `uploads/images/${req.file.filename}`, // NO leading slash!
+    });
+
     res.status(201).json(material);
   } catch (error) {
+    console.error(error);
     res.status(400).json({ message: error.message });
   }
 };
