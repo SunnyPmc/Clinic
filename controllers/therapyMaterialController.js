@@ -1,24 +1,25 @@
 const TherapyMaterial = require("../models/TherapyMaterial");
 
-
 // CREATE material (Admin)
 exports.createMaterial = async (req, res) => {
   try {
-    // Make sure Multer middleware is used in your route:
-    // router.post("/", upload.single("image"), createMaterial);
+    // Make sure your route uses: router.post("/", upload.single("image"), createMaterial);
 
-    if (!req.file) {
+    if (!req.file || !req.file.path) {
       return res.status(400).json({ message: "Image file is required" });
     }
 
     const { title, description, category, link } = req.body;
-    const imagePath = `uploads/images/${req.file.filename}`;
+
+    // req.file.path is the full Cloudinary URL
+    const imageUrl = req.file.path;
+
     const material = await TherapyMaterial.create({
       title,
       description,
       category,
       link,
-      image: imagePath, // NO leading slash!
+      image: imageUrl, // Save Cloudinary URL directly
     });
 
     res.status(201).json(material);
