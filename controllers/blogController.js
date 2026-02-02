@@ -12,7 +12,7 @@ const Blog = require("../models/Blog");
 
 exports.createBlog = async (req, res) => {
   try {
-    const { title, description } = req.body;
+    // const { title, description } = req.body;
 
     // const blog = await Blog.create({
     //   title,

@@ -1,4 +1,5 @@
 const express = require("express");
+const upload = require("../middleware/upload");
 const {
   createMaterial,
   getAllMaterials,
@@ -10,7 +11,7 @@ const {
 const router = express.Router();
 
 // Therapy Material APIs
-router.post("/", createMaterial);                 // Admin
+router.post("/", upload.single("image"), createMaterial);                // Admin
 router.get("/", getAllMaterials);                 // Public
 router.get("/category/:category", getMaterialsByCategory);
 router.get("/:id", getMaterialById);              // Public
