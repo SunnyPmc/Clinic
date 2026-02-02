@@ -9,6 +9,7 @@ const uploadRoutes = require("./routes/uploadRoutes");
 
 
 
+
 const blogRoutes = require("./routes/blogRoutes")
 const testimonialRoutes = require("./routes/testimonialRoutes")
 const therapyMaterialRoutes = require("./routes/therapyMaterialRoutes")
@@ -27,6 +28,7 @@ app.use(express.urlencoded({extended: false}))
 app.use(
   cors({
     origin: [
+      "http://localhost:5173", 
       "https://kathmanduhearingandspeech.com",
       "https://www.kathmanduhearingandspeech.com"
     ],
@@ -44,7 +46,16 @@ app.use(
 app.use("/api/upload", uploadRoutes);
 app.use(passport.initialize());
 app.use(passport.session());
-app.use("/uploads/images", express.static(path.join(__dirname, "uploads/images")));
+
+// app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads"), {
+  // Add headers to allow cross-origin image loading
+  setHeaders: (res, path, stat) => {
+    res.set("Access-Control-Allow-Origin", "*"); // or your frontend URL
+  },
+}));
+
+
 
 app.use("/api/blogs", blogRoutes);
 app.use("/api/testimonials", testimonialRoutes);
