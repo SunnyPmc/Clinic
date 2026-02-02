@@ -14,7 +14,7 @@ exports.createMaterial = async (req, res) => {
     const { title, description, category, link } = req.body;
 
     // req.file.path is the full Cloudinary URL
-    const imageUrl = req.file.path;
+    const imageUrl = req.file.path || req.file.url;
 
     const material = await TherapyMaterial.create({
       title,
