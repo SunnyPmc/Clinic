@@ -12,13 +12,13 @@ exports.createMaterial = async (req, res) => {
     }
 
     const { title, description, category, link } = req.body;
-
+    const imagePath = `uploads/images/${req.file.filename}`;
     const material = await TherapyMaterial.create({
       title,
       description,
       category,
       link,
-      image: `uploads/images/${req.file.filename}`, // NO leading slash!
+      image: imagePath, // NO leading slash!
     });
 
     res.status(201).json(material);
