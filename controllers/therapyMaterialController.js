@@ -4,6 +4,8 @@ const TherapyMaterial = require("../models/TherapyMaterial");
 exports.createMaterial = async (req, res) => {
   try {
     // Make sure your route uses: router.post("/", upload.single("image"), createMaterial);
+    console.log("req.body:", req.body);
+    console.log("req.file:", req.file);
 
     if (!req.file || !req.file.path) {
       return res.status(400).json({ message: "Image file is required" });
