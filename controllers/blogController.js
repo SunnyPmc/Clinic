@@ -17,7 +17,7 @@ exports.createBlog = async (req, res) => {
     const blog = await Blog.create({
       title,
       description,
-      image: `/uploads/images/${req.file.filename}`,
+      image: `uploads/images/${req.file.filename}`,
     });
     // console.log(req.body);
     // console.log(req.file);
