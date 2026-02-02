@@ -14,10 +14,17 @@ exports.createBlog = async (req, res) => {
   try {
     const { title, description } = req.body;
 
+    // const blog = await Blog.create({
+    //   title,
+    //   description,
+    //   image: `uploads/images/${req.file.filename}`,
+    // });
+    const imagePath = `uploads/images/${req.file.filename}`;
+
     const blog = await Blog.create({
-      title,
-      description,
-      image: `uploads/images/${req.file.filename}`,
+      title: req.body.title,
+      description: req.body.description,
+      image: imagePath,
     });
     // console.log(req.body);
     // console.log(req.file);
