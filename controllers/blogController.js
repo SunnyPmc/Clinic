@@ -12,26 +12,23 @@ const Blog = require("../models/Blog");
 
 exports.createBlog = async (req, res) => {
   try {
-    // const { title, description } = req.body;
+    console.log("req.file:", req.file); // Should contain Cloudinary URL
+    const { title, description } = req.body;
 
-    // const blog = await Blog.create({
-    //   title,
-    //   description,
-    //   image: `uploads/images/${req.file.filename}`,
-    // });
-    const imagePath = `uploads/images/${req.file.filename}`;
+    if (!req.file?.path) {
+      return res.status(400).json({ message: "Image is required" });
+    }
 
     const blog = await Blog.create({
-      title: req.body.title,
-      description: req.body.description,
-      image: imagePath,
+      title,
+      description,
+      image: req.file.path, // Full Cloudinary URL
     });
-    // console.log(req.body);
-    // console.log(req.file);
 
     res.status(201).json(blog);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
   }
 };
 
