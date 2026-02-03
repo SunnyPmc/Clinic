@@ -56,7 +56,13 @@ app.use("/uploads", express.static(path.join(process.cwd(), "uploads"), {
     res.set("Access-Control-Allow-Origin", "*"); // or your frontend URL
   },
 }));
+// Serve frontend static files
+app.use(express.static(path.join(__dirname, "client/build")));
 
+// Catch-all route to index.html for React Router
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build", "index.html"));
+});
 
 
 app.use("/api/blogs", blogRoutes);
