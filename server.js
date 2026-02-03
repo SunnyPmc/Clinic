@@ -5,30 +5,27 @@ const path = require("path");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
 require("./config/passport"); // import passport config
+
 const uploadRoutes = require("./routes/uploadRoutes");
-
-
-
-
 const blogRoutes = require("./routes/blogRoutes")
 const testimonialRoutes = require("./routes/testimonialRoutes")
 const therapyMaterialRoutes = require("./routes/therapyMaterialRoutes")
 const authRoutes = require("./routes/authRoutes");
+const carouselRoutes = require("./routes/carouselRoutes");
 
-const port = process.env.PORT || 8000
 const connectDB = require('./config/db')
+const port = process.env.PORT || 8000
 
 connectDB()
 
-
 const app = express()
 app.use(express.json())
-app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({ extended: false }))
 
 app.use(
   cors({
     origin: [
-      "http://localhost:5173", 
+      "http://localhost:5173",
       "https://kathmanduhearingandspeech.com",
       "https://www.kathmanduhearingandspeech.com"
     ],
@@ -37,7 +34,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-// Sessions
+
 app.use(
   cookieSession({
     name: "visitor-session",
@@ -45,31 +42,28 @@ app.use(
     maxAge: 24 * 60 * 60 * 1000, // 1 day
   })
 );
-app.use("/api/upload", uploadRoutes);
+
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+// Uploads folder for images
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads"), {
-  // Add headers to allow cross-origin image loading
   setHeaders: (res, path, stat) => {
-    res.set("Access-Control-Allow-Origin", "*"); // or your frontend URL
+    res.set("Access-Control-Allow-Origin", "*"); // allow frontend to access images
   },
 }));
-// Serve frontend static files
-app.use(express.static(path.join(__dirname, "client/build")));
 
-// Catch-all route to index.html for React Router
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client/build", "index.html"));
-});
-
-
+// -------------------------
+// API routes (register first!)
+// -------------------------
+app.use("/api/upload", uploadRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/materials", therapyMaterialRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/carousel", require("./routes/carouselRoutes"));
+app.use("/api/carousel", carouselRoutes);
+
+
 
 
 app.listen(port, () => console.log(`Server running on port ${port}`))
