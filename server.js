@@ -63,5 +63,7 @@ app.use("/api/blogs", blogRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/materials", therapyMaterialRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/carousel", require("./routes/carouselRoutes"));
+
 
 app.listen(port, () => console.log(`Server running on port ${port}`))

@@ -1,14 +1,6 @@
 const Blog = require("../models/Blog");
 
-// CREATE blog (Admin)
-// exports.createBlog = async (req, res) => {
-//   try {
-//     const blog = await Blog.create(req.body);
-//     res.status(201).json(blog);
-//   } catch (error) {
-//     res.status(400).json({ message: error.message });
-//   }
-// };
+
 
 exports.createBlog = async (req, res) => {
   try {
