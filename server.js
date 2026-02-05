@@ -5,6 +5,7 @@ const path = require("path");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
 require("./config/passport"); // import passport config
+const userAuthRoutes = require("./routes/userAuthRoutes")
 
 const uploadRoutes = require("./routes/uploadRoutes");
 const blogRoutes = require("./routes/blogRoutes")
@@ -62,6 +63,7 @@ app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/materials", therapyMaterialRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/carousel", carouselRoutes);
+app.use("/api/auth", userAuthRoutes);
 
 
 
