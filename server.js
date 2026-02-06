@@ -28,7 +28,8 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://kathmanduhearingandspeech.com",
-      "https://www.kathmanduhearingandspeech.com"
+      "https://www.kathmanduhearingandspeech.com",
+      "https://admin.kathmanduhearingandspeech.com",
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
